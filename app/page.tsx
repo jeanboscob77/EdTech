@@ -23,14 +23,12 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar />
       <main className="flex-grow px-4 py-6">
         {/* SearchBar now includes course list and filter */}
         <EnrollmentMessage/>
         <SearchBar initialCourses={initialCourses} />
         
       </main>
-      <Footer />
     </div>
   );
 }

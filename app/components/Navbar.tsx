@@ -8,7 +8,7 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="bg-white shadow-md">
+    <nav className="bg-white shadow-md border-b-gray-300">
       <div className="max-w-screen-xl mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo */}
         <Link href="/" className="text-2xl font-bold text-blue-600">
@@ -26,7 +26,7 @@ const Navbar = () => {
           <Link href="/contact" className="flex items-center gap-1 hover:text-blue-600">
             <FaEnvelope /> <span>Contact</span>
           </Link>
-          <Link href="/user" className="flex items-center gap-1 hover:text-blue-600">
+          <Link href="/user/login" className="flex items-center gap-1 hover:text-blue-600">
             <FaUser /> <span>User</span>
           </Link>
         </div>
