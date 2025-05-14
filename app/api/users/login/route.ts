@@ -15,7 +15,7 @@ interface IUser {
   dateOfBirth?: string;
 }
 
-const secret : any = process.env.JWT_SCRET
+const secret : any = process.env.JWT_SECRET
 
 export const POST = async(req: Request)=>{
     try {
@@ -25,7 +25,7 @@ export const POST = async(req: Request)=>{
         const user: IUser | any = await Users.findOne({email})
         const isPassMatched = await bcrypt.compare(password,user.password)
         if(!user || !isPassMatched) return NextResponse.json({msg: "invalid credentials"},{status: 400})
-            const token = jwt.sign({id: user._id},secret,{expiresIn: '1h'})
+            const token = jwt.sign({id: user._id,name: user.firstname},secret,{expiresIn: '1h'})
          return NextResponse.json({token})
     } catch (error:any) {
         return NextResponse.json(error.message)

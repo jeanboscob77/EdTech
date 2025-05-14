@@ -1,7 +1,7 @@
 // lib/mongodb.ts
 import mongoose from 'mongoose'
 
-const MONGODB_URL = 'mongodb://localhost:27017/umurava_Project'
+const MONGODB_URL = process.env.MONGODB_URL
 
 if (!MONGODB_URL) {
   throw new Error('⚠️ Please define the MONGODB_URL environment variable')

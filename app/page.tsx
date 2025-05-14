@@ -1,6 +1,4 @@
 // app/page.tsx
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar"; // will handle filtering
 import { Course } from "./types";
 import EnrollmentMessage from "./components/sub_components/EnrollMessage";

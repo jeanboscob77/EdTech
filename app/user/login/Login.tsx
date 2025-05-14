@@ -1,9 +1,11 @@
 "use client"
 import { FiMail, FiLock } from "react-icons/fi";
+import Swal from "sweetalert2";
 import Link from "next/link";
 import { login } from "@/app/store/userSlice";
 import { useDispatch} from "react-redux";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 
 
@@ -12,21 +14,37 @@ const Login = () => {
 const [email,setEmail] = useState('')
 const [password,setPassword] = useState('')
 
-const dispatch = useDispatch()
 
+const handleError = (msg: string) => {
+  Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text: msg || 'Something went wrong!',
+    confirmButtonColor: '#d33',
+  });
+};
+
+const dispatch = useDispatch()
+const router = useRouter()
 const handleLogin = async (e: any) => {
     e.preventDefault()
     try {
        const res = await axios.post('http://localhost:3000/api/users/login',{email,password});
 
-    const data = await res.data
-    if (data) {
-      dispatch(login(data.token));             // ✅ Update Redux
-      localStorage.setItem('token', data.token); // ✅ Store in localStorage
-      alert('login')
-    }
+
+      dispatch(login(res.data.token));             // ✅ Update Redux
+      localStorage.setItem('token', res.data.token); // ✅ Store in localStorage
+      Swal.fire({
+           title: 'Success!',
+           text: 'Login Successful.',
+           icon: 'success',
+           confirmButtonText: 'OK',
+         });
+         router.push('/dashboard')
     } catch (error: any) {
-      alert(error.message)
+      if (error.response && error.response.data && error.response.data.msg) {
+      handleError(error.response.data.msg);  // shows error from API
+    }
     }
    
 
