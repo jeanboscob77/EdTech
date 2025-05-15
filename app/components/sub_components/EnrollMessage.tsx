@@ -1,27 +1,27 @@
 'use client';
-import { clearMessage } from '@/app/store/coursesSlice';
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
 import { RootState } from '../../store/Store';
-import { useDispatch } from 'react-redux';
+import { clearMessage } from '@/app/store/coursesSlice';
 
 const EnrollmentMessage = () => {
   const message = useSelector((state: RootState) => state.courses.message);
-  const dispatch = useDispatch()
-  useEffect(() => {
-    if (message) {
-      Swal.fire({
-        icon: 'success',
-        title: 'Success!',
-        text: message,
-        confirmButtonColor: '#3085d6',
-      });
-    }
-     dispatch(clearMessage()); 
-  }, [message]);
+  const dispatch = useDispatch();
+useEffect(() => {
+  if (message) {
+    Swal.fire({
+      icon: 'success',
+      title: message.toLowerCase().includes('unenroll') ? 'Unenrolled' : 'Success!',
+      text: message,
+      confirmButtonColor: '#3085d6',
+    });
 
-  return null; // no need to render a div if you're using SweetAlert only
+    dispatch(clearMessage());
+  }
+}, [message]); // ✅ dispatch removed to avoid unstable dependency issue
+
+  return null;
 };
 
 export default EnrollmentMessage;

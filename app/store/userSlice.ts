@@ -4,6 +4,7 @@ import { jwtDecode } from 'jwt-decode';
 interface User {
   id: string;
   name: string;
+  role: string
   // add more fields if your token includes them
 }
 
@@ -37,6 +38,7 @@ const authSlice = createSlice({
         state.user = {
           id: decoded.id,
           name: decoded.name,
+          role: decoded.role
           // include other fields from your token if needed
         };
       } catch (error) {

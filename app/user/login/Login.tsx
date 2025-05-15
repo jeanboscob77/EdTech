@@ -28,6 +28,9 @@ const dispatch = useDispatch()
 const router = useRouter()
 const handleLogin = async (e: any) => {
     e.preventDefault()
+
+    if (password.trim() && email.trim()){
+
     try {
        const res = await axios.post('http://localhost:3000/api/users/login',{email,password});
 
@@ -40,13 +43,23 @@ const handleLogin = async (e: any) => {
            icon: 'success',
            confirmButtonText: 'OK',
          });
-         router.push('/dashboard')
+         router.push('/user/dashboard')
+         console.log(res);
+         
     } catch (error: any) {
       if (error.response && error.response.data && error.response.data.msg) {
       handleError(error.response.data.msg);  // shows error from API
+      console.log(error.response.data.msg);
+      
     }
     }
    
+    }
+
+    else {
+      handleError("Fill out all Fields")
+    }
+
 
   }
 

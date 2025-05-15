@@ -28,6 +28,7 @@ export async function GET(req: Request) {
       : {};
 
     const courses = await Course.find(filter);
+    console.log(courses)
     return NextResponse.json(courses);
   } catch (error) {
     console.error("Error in GET:", error);

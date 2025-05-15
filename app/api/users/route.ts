@@ -29,7 +29,7 @@ export const POST = async(req: Request)=>{
    const hashed = await bcrypt.hash(password,10)
    if(!firstname || !lastname || !dateOfBirth || !email || !password)
      return NextResponse.json({msg: "All fields required"},{status: 400})
-    const newUser = new Users({firstname,lastname,dateOfBirth,email,password: hashed})
+    const newUser = new Users({firstname,lastname,dateOfBirth,email,password: hashed, role: 'student'})
     await newUser.save()
     return NextResponse.json({newUser},{status: 201})
   } catch (error: any) {

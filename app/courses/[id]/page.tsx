@@ -2,7 +2,6 @@
 import { notFound } from 'next/navigation';
 import { Course } from '@/app/types';
 import EnrollButton from '@/app/components/sub_components/EnrollButton';
-import EnrollmentMessage from '@/app/components/sub_components/EnrollMessage';
 
 const CourseDetails = async ({ params }: { params: { id: string } }) => {
   const { id } = params;
@@ -35,7 +34,8 @@ const CourseDetails = async ({ params }: { params: { id: string } }) => {
         <p className="mb-6"><strong>Duration:</strong> {course.duration}</p>
 
         <EnrollButton courseId={course._id} isEnrolled={course.isEnrolled} 
-        buttonText={course.isEnrolled ? '✅ Enrolled' : 'Enroll'}  />
+        // buttonText={course.isEnrolled ? '✅ Enrolled' : 'Enroll'}
+          />
       </main>
     </div>
   );

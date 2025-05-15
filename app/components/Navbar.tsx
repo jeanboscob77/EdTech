@@ -1,11 +1,30 @@
 'use client';
-
+import Logo from "../../public/Logo.png"
+import { useRouter } from "next/navigation";
+import Image from 'next/image';
 import { useState} from 'react';
+import { useSelector } from "react-redux";
+import { RootState } from "../store/Store";
 import Link from 'next/link';
 import { FaHome, FaInfoCircle, FaEnvelope, FaUser, FaBars, FaTimes } from 'react-icons/fa';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const user = useSelector((state: RootState)=> state.users.user)
+
+
+
+ const router = useRouter()
+  const handleUser  = ()=>{
+    // alert(user.role)
+    user? router.push('/user/dashboard'): router.push('/user/login')
+    
+  }
+
+  const handleUserOnMobile = ()=>{
+      user? router.push('/user/dashboard'): router.push('/user/login')
+      setMenuOpen(false)
+  }
 
   
   return (
@@ -13,7 +32,13 @@ const Navbar = () => {
       <div className="max-w-screen-xl mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo */}
         <Link href="/" className="text-2xl font-bold text-blue-600">
-          TrainingPortal
+          <Image 
+          src={Logo}
+          alt="Logo"
+          width={60}
+          height={60}
+          className="w-12 h-12 rounded-full object-cover"
+          />
         </Link>
 
         {/* Desktop Menu */}
@@ -27,9 +52,9 @@ const Navbar = () => {
           <Link href="/contact" className="flex items-center gap-1 hover:text-blue-600">
             <FaEnvelope /> <span>Contact</span>
           </Link>
-          <Link href="/user/login" className="flex items-center gap-1 hover:text-blue-600">
+          <button onClick={handleUser} className="flex items-center gap-1 hover:text-blue-600 cursor-pointer">
             <FaUser /> <span>User</span>
-          </Link>
+          </button>
         </div>
 
         {/* Mobile Hamburger */}
@@ -54,9 +79,9 @@ const Navbar = () => {
           <Link href="/contact" className="block py-2 border-b" onClick={() => setMenuOpen(false)}>
             <FaEnvelope className="inline mr-2" /> Contact
           </Link>
-          <Link href="/user/login" className="block py-2  border-b" onClick={() => setMenuOpen(false)}>
+          <button className="block py-2  border-b" onClick={handleUserOnMobile}>
             <FaUser className="inline mr-2" /> User
-          </Link>
+          </button>
         </div>
       )}
     </nav>

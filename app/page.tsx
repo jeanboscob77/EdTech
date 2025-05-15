@@ -7,6 +7,7 @@ async function getCourses(): Promise<Course[]> {
   const res = await fetch(`${process.env.BASE_URL}/api/courses`, {
     cache: "no-store",
   });
+  console.log(res)
 
   if (!res.ok) {
     console.error("Failed to fetch courses");

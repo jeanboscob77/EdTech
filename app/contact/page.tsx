@@ -1,28 +1,36 @@
 "use client";
 import { useState } from "react";
+import axios from "axios";
 
 const ContactPage = () => {
   const [form, setForm] = useState({
-    fullname: "",
+    names: "",
     email: "",
     subject: "",
     message: "",
   });
 
+  const {names,email,subject,message} = form
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
 
 
     console.log("Contact Submission:");
-
+          
+      try {
+        const res = await axios.post('http://localhost:3000/api/contacts', form)
+        if(res.status === 201)   alert("Message sent successfully!");
+        setForm({ names: "", email: "", subject: "", message: "" });
+      } catch (error: any) {
+        alert(error.message)
+      }
     // Here you can send contactData to your API via axios.post
-    alert("Message sent successfully!");
-    setForm({ fullname: "", email: "", subject: "", message: "" });
+   
   };
 
   return (
@@ -35,9 +43,9 @@ const ContactPage = () => {
 
         <input
           type="text"
-          name="fullname"
+          name="names"
           placeholder="Full Name"
-          value={form.fullname}
+          value={form.names}
           onChange={handleChange}
           required
           className="w-full border border-gray-300 rounded px-4 py-2"
