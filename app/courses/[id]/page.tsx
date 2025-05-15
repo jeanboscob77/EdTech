@@ -1,8 +1,6 @@
 // app/courses/[id]/page.tsx
 import { notFound } from 'next/navigation';
 import { Course } from '@/app/types';
-import Navbar from '@/app/components/Navbar';
-import Footer from '@/app/components/Footer';
 import EnrollButton from '@/app/components/sub_components/EnrollButton';
 import EnrollmentMessage from '@/app/components/sub_components/EnrollMessage';
 
@@ -23,10 +21,12 @@ const CourseDetails = async ({ params }: { params: { id: string } }) => {
   if (!course || course.error) {
     notFound(); // Trigger a 404 page if the course data is invalid
   }
+//display success message on 
+
+
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar />
       <main className="flex-grow max-w-screen-lg mx-auto px-4 py-6">
         <h1 className="text-3xl font-bold mb-4">{course.title}</h1>
         <p className="text-gray-700 mb-4">{course.fullDescription}</p>
@@ -36,9 +36,7 @@ const CourseDetails = async ({ params }: { params: { id: string } }) => {
 
         <EnrollButton courseId={course._id} isEnrolled={course.isEnrolled} 
         buttonText={course.isEnrolled ? '✅ Enrolled' : 'Enroll'}  />
-        <EnrollmentMessage/>
       </main>
-      <Footer />
     </div>
   );
 };

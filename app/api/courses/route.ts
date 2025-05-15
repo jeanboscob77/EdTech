@@ -40,7 +40,7 @@ export async function POST(req: Request) {
     await connectDB();
 
     const body = await req.json();
-    const { title, shortDescription, fullDescription, duration, prerequisites, instructor, isEnrolled} = body;
+    const { title, shortDescription, fullDescription, duration, prerequisites, instructor, isEnrolled, userId} = body;
 
     if (!title || !shortDescription || !fullDescription || !duration || !prerequisites || !instructor) {
       return NextResponse.json({ message: "All fields are required" }, { status: 400 });
@@ -53,7 +53,8 @@ export async function POST(req: Request) {
       duration,
       prerequisites,
       instructor,
-      isEnrolled
+      isEnrolled,
+      userId
     });
 
     await newCourse.save();
@@ -77,15 +78,15 @@ export async function PATCH(req: Request) {
     }
 
     const body = await req.json();
-    const { isEnrolled } = body;
+    const { isEnrolled, userId} = body;
 
-    if (isEnrolled === undefined) {
-      return NextResponse.json({ message: "Enroll field is required" }, { status: 400 });
+    if (isEnrolled === undefined ||!userId) {
+      return NextResponse.json({ message: "Enroll and UserId are required" }, { status: 400 });
     }
 
     const updatedCourse = await Course.findByIdAndUpdate(
       id,
-      { isEnrolled },
+      { isEnrolled, userId},
       { new: true }
     );
 

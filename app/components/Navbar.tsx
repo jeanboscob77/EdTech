@@ -1,33 +1,12 @@
 'use client';
-import { useRouter } from 'next/navigation';
-import { useState,useEffect } from 'react';
-import Link from 'next/link';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store/Store';
 
+import { useState} from 'react';
+import Link from 'next/link';
 import { FaHome, FaInfoCircle, FaEnvelope, FaUser, FaBars, FaTimes } from 'react-icons/fa';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const user = useSelector((state: RootState) => state.users.user);
-  const router = useRouter()
-  useEffect(() => {
-    if (!user) {
-      // Redirect to login if no user
-      router.push('/user/login');
-    }
-  }, [user, router])
-
-  const handleClick = ()=>{
-    user? router.push('/dashboard'):router.push('/user/login')
-  }
-  
-  const handleClickMobile = ()=>{
-    user? router.push('/dashboard'):router.push('/user/login')
-     setMenuOpen(false)
-  }
-  
   
   return (
     <nav className="bg-white shadow-md border-b-gray-300">
@@ -51,11 +30,6 @@ const Navbar = () => {
           <Link href="/user/login" className="flex items-center gap-1 hover:text-blue-600">
             <FaUser /> <span>User</span>
           </Link>
-          <button className="flex items-center gap-1 hover:text-blue-600"
-          onClick={handleClick}
-          >
-            <FaUser /> <span>Dashboard</span>
-          </button>
         </div>
 
         {/* Mobile Hamburger */}
@@ -83,10 +57,6 @@ const Navbar = () => {
           <Link href="/user/login" className="block py-2  border-b" onClick={() => setMenuOpen(false)}>
             <FaUser className="inline mr-2" /> User
           </Link>
-                    <button 
-                     className="block py-2" onClick={handleClickMobile}>
-            <FaUser className="inline mr-2" /> Dashboard
-          </button>
         </div>
       )}
     </nav>

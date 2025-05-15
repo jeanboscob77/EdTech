@@ -7,7 +7,8 @@ const CourseSchema = new Schema({
   duration: { type: String, required: true },
   prerequisites: { type: String, required: false },
   instructor: { type: String, required: true },
-  isEnrolled: {type: Boolean, default: false}
+  isEnrolled: {type: Boolean, default: false},
+  userId: {type: Schema.Types.ObjectId, ref: "Users", default: undefined}
 }, {
   timestamps: true,
 });
