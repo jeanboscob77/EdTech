@@ -1,5 +1,5 @@
-import Link from 'next/link';
-import { Course } from '../types'; // Define Course type elsewhere
+import Link from "next/link";
+import { Course } from "../types";
 
 const CourseCard = ({ course }: { course: Course }) => {
   return (
