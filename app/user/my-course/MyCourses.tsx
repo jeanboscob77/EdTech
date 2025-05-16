@@ -14,10 +14,10 @@ export default function MyCourses() {
     const fetchCourses = async () => {
       if (!user || user.role !== "student") return;
 
-      const responses = await axios.get(
-        `http://localhost:3000/api/courses?userId=${user.id}`
+      const response = await axios.get(
+        `http://localhost:3000/api/users/courses?userId=${user.id}`
       );
-      const data = await responses.data;
+      const data = response.data;
       setCourses(data);
     };
     fetchCourses();

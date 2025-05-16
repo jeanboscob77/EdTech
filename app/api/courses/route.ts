@@ -14,22 +14,35 @@ export async function GET(req: Request) {
 
     if (id) {
       const course = await Course.findById(id);
+
       if (!course) {
         return NextResponse.json(
           { message: "Course not found" },
           { status: 404 }
         );
       }
-      return NextResponse.json(course);
+
+      // Check if user is enrolled in this course
+      let isEnrolled = false;
+      if (userId && course.enrolledUserIds?.length > 0) {
+        isEnrolled = course.enrolledUserIds.some(
+          (uid: mongoose.Types.ObjectId) => uid.toString() === userId
+        );
+      }
+
+      return NextResponse.json({
+        ...course.toObject(), // Convert course to plain object
+        isEnrolled, // Add the enrollment status
+      });
     }
 
     if (userId) {
       const courses = await Course.find({
-        userId: new mongoose.Types.ObjectId(userId),
+        enrolledUserIds: new mongoose.Types.ObjectId(userId),
       });
       if (!courses) {
         return NextResponse.json(
-          { message: "You have not enrolled in any course!!!" },
+          { message: "You have not enrolled in any course!" },
           { status: 404 }
         );
       }
@@ -69,8 +82,6 @@ export async function POST(req: Request) {
       duration,
       prerequisites,
       instructor,
-      isEnrolled,
-      userId,
     } = body;
 
     if (
@@ -94,61 +105,12 @@ export async function POST(req: Request) {
       duration,
       prerequisites,
       instructor,
-      isEnrolled,
-      userId,
     });
 
     await newCourse.save();
     return NextResponse.json(newCourse, { status: 201 });
   } catch (error) {
     console.error("Error in POST:", error);
-    return NextResponse.json(
-      { message: "Internal Server Error" },
-      { status: 500 }
-    );
-  }
-}
-
-export async function PATCH(req: Request) {
-  try {
-    await connectDB();
-
-    const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
-
-    if (!id) {
-      return NextResponse.json(
-        { message: "Course ID is required" },
-        { status: 400 }
-      );
-    }
-
-    const body = await req.json();
-    const { isEnrolled, userId } = body;
-
-    if (isEnrolled === undefined || !userId) {
-      return NextResponse.json(
-        { message: "Enroll and UserId are required" },
-        { status: 400 }
-      );
-    }
-
-    const updatedCourse = await Course.findByIdAndUpdate(
-      id,
-      { isEnrolled, userId },
-      { new: true }
-    );
-
-    if (!updatedCourse) {
-      return NextResponse.json(
-        { message: "Course not found" },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json(updatedCourse);
-  } catch (error) {
-    console.error("Error in PATCH:", error);
     return NextResponse.json(
       { message: "Internal Server Error" },
       { status: 500 }

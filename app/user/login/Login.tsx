@@ -32,9 +32,10 @@ const Login = () => {
           email,
           password,
         });
-
+        const user = res.data.user;
         dispatch(login(res.data.token));
         localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user", JSON.stringify(user));
         Swal.fire({
           title: "Success!",
           text: "Login Successful.",

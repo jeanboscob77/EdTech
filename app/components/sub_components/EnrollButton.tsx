@@ -3,32 +3,64 @@ import { RootState } from "@/app/store/Store";
 import Swal from "sweetalert2";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   enroll as enrollCourse,
   unenroll as unenrollCourse,
 } from "@/app/store/coursesSlice";
 import { ExtendedEnrollButtonProps } from "@/app/types";
 
-function EnrollButton({
-  courseId,
-  isEnrolled: initialEnrolled,
-}: ExtendedEnrollButtonProps) {
+function EnrollButton({ courseId }: ExtendedEnrollButtonProps) {
   const dispatch = useDispatch();
-  const [enrolled, setEnrolled] = useState(initialEnrolled);
+  const [enrolled, setEnrolled] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [checkingStatus, setCheckingStatus] = useState(true); // new
 
   const user = useSelector((state: RootState) => state.users.user);
+
+  // ✅ On mount: fetch enrollment status from backend
+  useEffect(() => {
+    const fetchEnrollmentStatus = async () => {
+      if (!user || user.role !== "student") return;
+
+      try {
+        const res = await axios.get(
+          `http://localhost:3000/api/users/${user.id}/enrollments`
+        );
+
+        const enrolledCourses = res.data.enrolledCourses || [];
+
+        const isEnrolled = enrolledCourses.includes(courseId);
+        setEnrolled(isEnrolled);
+      } catch (err) {
+        console.error("Error fetching enrollment status", err);
+      } finally {
+        setCheckingStatus(false);
+      }
+    };
+
+    fetchEnrollmentStatus();
+  }, [user, courseId]);
+
   const handleEnrollToggle = async () => {
-    if (loading) return;
+    if (!user || user.role !== "student") {
+      Swal.fire({
+        icon: "error",
+        title: "Not allowed",
+        text: "You must be logged in as a student to enroll.",
+        confirmButtonColor: "#d33",
+      });
+      return;
+    }
 
     setLoading(true);
     const nextEnrollState = !enrolled;
 
     try {
-      await axios.patch(`/api/courses?id=${courseId}`, {
-        isEnrolled: nextEnrollState,
-        userId: user?.id,
+      await axios.patch("http://localhost:3000/api/users", {
+        userId: user.id,
+        courseId,
+        enroll: nextEnrollState,
       });
 
       if (nextEnrollState) {
@@ -43,17 +75,15 @@ function EnrollButton({
         icon: "success",
         title: "Success!",
         text: nextEnrollState
-          ? "The course has been successfully enrolled."
-          : "You have been successfully unenrolled from the course.",
+          ? "You have successfully enrolled in the course."
+          : "You have successfully unenrolled from the course.",
         confirmButtonColor: "#3085d6",
       });
     } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: user
-          ? "Something went wrong. Please try again."
-          : "You must be logged in!",
+        text: "Something went wrong. Please try again.",
         confirmButtonColor: "#d33",
       });
     } finally {
@@ -69,13 +99,13 @@ function EnrollButton({
     ? "Unenroll"
     : "Enroll";
 
+  if (user?.role == "admin") return null;
+
   return (
-    <>
-      {user && user?.role == "student" && (
-        <button
-          onClick={handleEnrollToggle}
-          disabled={loading}
-          className={`px-6 py-2 rounded-md text-white transition font-semibold
+    <button
+      onClick={handleEnrollToggle}
+      disabled={loading}
+      className={`px-6 py-2 rounded-md text-white transition font-semibold
         ${
           enrolled
             ? "bg-red-600 hover:bg-red-700"
@@ -83,11 +113,9 @@ function EnrollButton({
         }
         ${loading ? "opacity-70 cursor-not-allowed" : ""}
       `}
-        >
-          {buttonLabel}
-        </button>
-      )}
-    </>
+    >
+      {buttonLabel}
+    </button>
   );
 }
 

@@ -20,6 +20,7 @@ const Navbar = () => {
   const user = useSelector((state: RootState) => state.users.user);
 
   const router = useRouter();
+
   const handleUser = () => {
     user ? router.push("/user/dashboard") : router.push("/user/login");
   };
@@ -28,6 +29,8 @@ const Navbar = () => {
     user ? router.push("/user/dashboard") : router.push("/user/login");
     setMenuOpen(false);
   };
+
+  console.log(user);
 
   return (
     <nav className="bg-white shadow-md border-b-gray-300">

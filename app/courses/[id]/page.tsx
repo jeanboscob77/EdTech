@@ -1,23 +1,22 @@
 import { notFound } from "next/navigation";
-import { Course } from "@/app/types";
 import EnrollButton from "@/app/components/sub_components/EnrollButton";
+import { Course } from "@/app/types";
 
-const CourseDetails = async ({ params }: { params: { id: string } }) => {
+interface Props {
+  params: { id: string };
+}
+
+const CourseDetails = async ({ params }: Props) => {
   const { id } = params;
 
-  const res = await fetch(`${process.env.BASE_URL}/api/courses?id=${id}`, {
+  const res = await fetch(`http://localhost:3000/api/courses?id=${id}`, {
     cache: "no-store",
   });
 
-  if (!res.ok) {
-    notFound();
-  }
+  if (!res.ok) notFound();
 
   const course: Course = await res.json();
-
-  if (!course || course.error) {
-    notFound();
-  }
+  if (!course || course.error) notFound();
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -34,6 +33,7 @@ const CourseDetails = async ({ params }: { params: { id: string } }) => {
           <strong>Duration:</strong> {course.duration}
         </p>
 
+        {/* ✅ Just pass the courseId; let EnrollButton check isEnrolled itself */}
         <EnrollButton courseId={course._id} isEnrolled={course.isEnrolled} />
       </main>
     </div>

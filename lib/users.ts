@@ -1,19 +1,24 @@
-import {Schema,model,models} from 'mongoose';
+import { Schema, model, models } from "mongoose";
 
-
-const UserSchema = new Schema({
-    firstname: {type: String, required: true},
-    lastname: {type: String, required: true},
-    dateOfBirth: {type: Date, required: true},
-    email: {type: String, required: true},
-    password: {type: String, required: true},
+const UserSchema = new Schema(
+  {
+    firstname: { type: String, required: true },
+    lastname: { type: String, required: true },
+    dateOfBirth: { type: Date, required: true },
+    email: { type: String, required: true },
+    password: { type: String, required: true },
     role: {
-        type: String,
-        enum: ['admin','student','instructor'],
-        default: 'student'
-    }
-},{timestamps: true})
+      type: String,
+      enum: ["admin", "student", "instructor"],
+      default: "student",
+    },
+    enrolledCourses: [{ type: Schema.Types.ObjectId, ref: "Course" }],
+  },
+  {
+    timestamps: true,
+  }
+);
 
-const Users = models.Users || model("Users", UserSchema)
+const Users = models.Users || model("Users", UserSchema);
 
-export default Users
+export default Users;
