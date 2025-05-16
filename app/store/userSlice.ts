@@ -1,11 +1,10 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { jwtDecode } from 'jwt-decode';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { jwtDecode } from "jwt-decode";
 
 interface User {
   id: string;
   name: string;
-  role: string
-  // add more fields if your token includes them
+  role: string;
 }
 
 interface AuthState {
@@ -21,13 +20,14 @@ const initialState: AuthState = {
 };
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
     login(state, action: PayloadAction<string | { token: string }>) {
-      const actualToken = typeof action.payload === 'string'
-        ? action.payload
-        : action.payload.token;
+      const actualToken =
+        typeof action.payload === "string"
+          ? action.payload
+          : action.payload.token;
 
       state.token = actualToken;
       state.isAuthenticated = true;
@@ -38,8 +38,7 @@ const authSlice = createSlice({
         state.user = {
           id: decoded.id,
           name: decoded.name,
-          role: decoded.role
-          // include other fields from your token if needed
+          role: decoded.role,
         };
       } catch (error) {
         console.error("Invalid token:", error);

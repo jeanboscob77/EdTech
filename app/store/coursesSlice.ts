@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface CoursesState {
   enrolledCourseIds: string[];
@@ -11,7 +11,7 @@ const initialState: CoursesState = {
 };
 
 const coursesSlice = createSlice({
-  name: 'courses',
+  name: "courses",
   initialState,
   reducers: {
     enroll: (state, action: PayloadAction<string>) => {
@@ -21,7 +21,9 @@ const coursesSlice = createSlice({
       }
     },
     unenroll: (state, action: PayloadAction<string>) => {
-      state.enrolledCourseIds = state.enrolledCourseIds.filter(id => id !== action.payload);
+      state.enrolledCourseIds = state.enrolledCourseIds.filter(
+        (id) => id !== action.payload
+      );
       state.message = "You have been successfully unenrolled from the course.";
     },
     clearMessage: (state) => {

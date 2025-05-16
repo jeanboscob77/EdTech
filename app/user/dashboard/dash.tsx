@@ -13,16 +13,14 @@ export default function Dash() {
 
   useEffect(() => {
     if (!user) {
-      router.push("/user/login"); // Redirect if not logged in
+      router.push("/user/login");
     }
   }, [user, router]);
 
-  // Avoid rendering anything until redirect happens
   if (!user) {
-    return null; // or a loader
+    return null;
   }
 
-  // Safe access to user.role after the null check
   const role = user.role;
 
   return (
