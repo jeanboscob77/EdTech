@@ -1,7 +1,27 @@
-// app/about/page.tsx
 import Link from "next/link";
 import Image from "next/image";
-import About from "../../public/edtech.jpg"
+import About from "../../public/edtech.jpg";
+
+export const metadata = {
+  title: "About | EdTech",
+  description:
+    "Learn more about EdTech, our mission, and how we empower students and professionals through quality education.",
+  keywords: [
+    "about EdTech",
+    "mission",
+    "education platform",
+    "online learning",
+    "who we are",
+  ],
+  openGraph: {
+    title: "About EdTech - Our Mission and Vision",
+    description:
+      "Discover how EdTech helps learners grow through accessible and high-quality online education.",
+    url: "https://your-domain.com/about",
+    siteName: "EdTech",
+    type: "website",
+  },
+};
 
 export default function AboutPage() {
   return (
@@ -10,7 +30,8 @@ export default function AboutPage() {
         <section className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">About EdTech</h1>
           <p className="text-lg text-gray-600">
-            Empowering students and professionals through accessible, quality learning.
+            Empowering students and professionals through accessible, quality
+            learning.
           </p>
         </section>
 
@@ -18,8 +39,9 @@ export default function AboutPage() {
           <div>
             <h2 className="text-2xl font-semibold mb-4">Who We Are</h2>
             <p className="text-gray-700 leading-relaxed">
-              EdTech is a modern learning platform designed to help students and employees grow their skills
-              through flexible online courses. Whether you're advancing your career or starting a new path, we
+              EdTech is a modern learning platform designed to help students and
+              employees grow their skills through flexible online courses.
+              Whether you're advancing your career or starting a new path, we
               make learning simple, effective, and accessible to all.
             </p>
           </div>
@@ -34,13 +56,16 @@ export default function AboutPage() {
         <section className="mt-16">
           <h2 className="text-2xl font-semibold mb-4">Our Mission</h2>
           <p className="text-gray-700 leading-relaxed mb-6">
-            Our mission is to bridge the gap between education and opportunity by providing a platform where
-            individuals can explore, learn, and enroll in high-quality courses that match their needs and goals.
+            Our mission is to bridge the gap between education and opportunity
+            by providing a platform where individuals can explore, learn, and
+            enroll in high-quality courses that match their needs and goals.
           </p>
 
           <h2 className="text-2xl font-semibold mb-4">What We Offer</h2>
           <ul className="list-disc pl-5 space-y-2 text-gray-700">
-            <li>Wide range of curated courses for students and professionals</li>
+            <li>
+              Wide range of curated courses for students and professionals
+            </li>
             <li>User-friendly navigation and enrollment system</li>
             <li>Mobile-responsive and accessible design</li>
             <li>Opportunities for skill growth and certification</li>
