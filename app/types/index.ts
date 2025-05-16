@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export type Course = {
   _id: string;
   title: string;
@@ -7,19 +9,22 @@ export type Course = {
   prerequisites?: string;
   instructor: string;
   isEnrolled: boolean;
-  error: string
+  error: string;
 };
 
-export interface EnrollButtonProps{
-  courseId: string,
+export interface EnrollButtonProps {
+  courseId: string;
 }
 
 export interface ExtendedEnrollButtonProps extends EnrollButtonProps {
   isEnrolled: boolean;
-  buttonText?: string; // Optional now, we compute internally
+  buttonText?: string;
 }
-
 
 export type Props = {
   initialCourses: Course[];
 };
+
+export interface ReduxProviderProps {
+  children: ReactNode;
+}
