@@ -28,7 +28,7 @@ export default function CourseForm() {
 
     try {
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_UR}/api/courses`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses`,
         form
       );
 

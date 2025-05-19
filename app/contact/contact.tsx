@@ -23,7 +23,7 @@ const Contact = () => {
 
     try {
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_UR}/api/contacts`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/contacts`,
         form
       );
       if (res.status === 201) alert("Message sent successfully!");

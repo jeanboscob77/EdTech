@@ -25,7 +25,7 @@ function EnrollButton({ courseId }: ExtendedEnrollButtonProps) {
 
       try {
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_BASE_UR}/api/users/${user.id}/enrollments`
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${user.id}/enrollments`
         );
 
         const enrolledCourses = res.data.enrolledCourses || [];

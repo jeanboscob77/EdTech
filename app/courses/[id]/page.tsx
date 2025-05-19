@@ -11,7 +11,7 @@ export default async function CourseDetails({
 }) {
   const { id } = await params;
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_UR}/api/courses?id=${id}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses?id=${id}`,
     {
       cache: "no-store",
     }

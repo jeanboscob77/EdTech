@@ -29,7 +29,7 @@ const Login = () => {
     if (password.trim() && email.trim()) {
       try {
         const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_BASE_UR}/api/users/login`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/login`,
           {
             email,
             password,
