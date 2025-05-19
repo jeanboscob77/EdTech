@@ -2,11 +2,13 @@ import { notFound } from "next/navigation";
 import EnrollButton from "@/app/components/sub_components/EnrollButton";
 import { Course } from "@/app/types";
 
-interface Props {
-  params: { id: string };
-}
+type PageProps = {
+  params: {
+    id: string;
+  };
+};
 
-const CourseDetails = async ({ params }: Props) => {
+const CourseDetails = async ({ params }: PageProps) => {
   const { id } = params;
 
   const res = await fetch(
