@@ -1,16 +1,15 @@
+// app/courses/[id]/page.tsx
+
 import { notFound } from "next/navigation";
 import EnrollButton from "@/app/components/sub_components/EnrollButton";
 import { Course } from "@/app/types";
-import { FC } from "react";
 
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
-const CourseDetails: FC<PageProps> = async ({ params }) => {
-  const { id } = params;
-
+export default async function CourseDetails({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_UR}/api/courses?id=${id}`,
     {
@@ -38,11 +37,8 @@ const CourseDetails: FC<PageProps> = async ({ params }) => {
           <strong>Duration:</strong> {course.duration}
         </p>
 
-        {/* ✅ Just pass the courseId; let EnrollButton check isEnrolled itself */}
         <EnrollButton courseId={course._id} isEnrolled={course.isEnrolled} />
       </main>
     </div>
   );
-};
-
-export default CourseDetails;
+}
