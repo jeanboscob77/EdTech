@@ -28,10 +28,13 @@ const Login = () => {
 
     if (password.trim() && email.trim()) {
       try {
-        const res = await axios.post("http://localhost:3000/api/users/login", {
-          email,
-          password,
-        });
+        const res = await axios.post(
+          `${process.env.NEXT_PUBLIC_BASE_UR}/api/users/login`,
+          {
+            email,
+            password,
+          }
+        );
         const user = res.data.user;
         dispatch(login(res.data.token));
         localStorage.setItem("token", res.data.token);

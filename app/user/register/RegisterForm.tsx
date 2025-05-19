@@ -81,7 +81,7 @@ const Register = () => {
         return;
       } else {
         const res = await axios.post(
-          `http://localhost:3000/api/users`,
+          `${process.env.NEXT_PUBLIC_BASE_UR}/api/users`,
           formData
         );
         if (res.status == 200 || res.status == 201) {

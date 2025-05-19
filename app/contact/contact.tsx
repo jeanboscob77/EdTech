@@ -22,7 +22,10 @@ const Contact = () => {
     console.log("Contact Submission:");
 
     try {
-      const res = await axios.post("http://localhost:3000/api/contacts", form);
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_UR}/api/contacts`,
+        form
+      );
       if (res.status === 201) alert("Message sent successfully!");
       setForm({ names: "", email: "", subject: "", message: "" });
     } catch (error: any) {

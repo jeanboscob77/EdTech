@@ -25,7 +25,7 @@ function EnrollButton({ courseId }: ExtendedEnrollButtonProps) {
 
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/users/${user.id}/enrollments`
+          `${process.env.NEXT_PUBLIC_BASE_UR}/api/users/${user.id}/enrollments`
         );
 
         const enrolledCourses = res.data.enrolledCourses || [];
@@ -57,7 +57,7 @@ function EnrollButton({ courseId }: ExtendedEnrollButtonProps) {
     const nextEnrollState = !enrolled;
 
     try {
-      await axios.patch("http://localhost:3000/api/users", {
+      await axios.patch(`${process.env.NEXT_PUBLIC_BASE_UR}/api/users`, {
         userId: user.id,
         courseId,
         enroll: nextEnrollState,

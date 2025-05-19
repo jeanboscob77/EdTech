@@ -27,7 +27,10 @@ export default function CourseForm() {
     setError("");
 
     try {
-      const res = await axios.post(`http://localhost:3000/api/courses`, form);
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_UR}/api/courses`,
+        form
+      );
 
       if (res.status !== 201) {
         const { message } = res.request.message;

@@ -15,7 +15,7 @@ export default function MyCourses() {
       if (!user || user.role !== "student") return;
 
       const response = await axios.get(
-        `http://localhost:3000/api/users/courses?userId=${user.id}`
+        `${process.env.NEXT_PUBLIC_BASE_UR}/api/users/courses?userId=${user.id}`
       );
       const data = response.data;
       setCourses(data);

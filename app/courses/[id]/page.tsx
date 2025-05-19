@@ -9,9 +9,12 @@ interface Props {
 const CourseDetails = async ({ params }: Props) => {
   const { id } = params;
 
-  const res = await fetch(`http://localhost:3000/api/courses?id=${id}`, {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_UR}/api/courses?id=${id}`,
+    {
+      cache: "no-store",
+    }
+  );
 
   if (!res.ok) notFound();
 
