@@ -1,8 +1,14 @@
 import { notFound } from "next/navigation";
 import EnrollButton from "@/app/components/sub_components/EnrollButton";
 import { Course } from "@/app/types";
+import { FC } from "react";
 
-const CourseDetails = async ({ params }: { params: { id: string } }) => {
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
+const CourseDetails: FC<PageProps> = async ({ params }) => {
   const { id } = params;
 
   const res = await fetch(
